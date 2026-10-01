@@ -2,7 +2,7 @@ name: Auto PR Review
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened,synchronize, reopened]
 
 permissions:
   pull-requests: write
@@ -20,5 +20,5 @@ jobs:
       - name: Review PR
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: claude --print --dangerously-skip-permissions "/review-pr ${{ github.event.pull_request.number }}"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: claude -p "/review-pr ${{ github.event.pull_request.number }}" --allowedTools "Bash(gh:*),Write,Read,Grep,Glob"
