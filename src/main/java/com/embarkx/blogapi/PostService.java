@@ -16,7 +16,7 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Autowired
-    private final PostRepository postRepositoryNew;
+    private final PostRepository postRepositoryPR;
 
     public Post createPost(Post post) {
         validateTitle(post.getTitle());
@@ -33,6 +33,9 @@ public class PostService {
         String sql = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
         String sql2 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
         String sql3 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
+
+        String sql4 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
+        String sql5 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
 
         return postRepository.findById(id).get();
     }
