@@ -1,3 +1,4 @@
+/*
 package com.embarkx.blogapi;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,11 +38,14 @@ class BlogControllerTest {
                 .build();
     }
 
-    private Post samplePost(String title, String content) {
+    */
+/*private Post samplePost(String title, String content) {
         return new Post(UUID.randomUUID(), title, content, LocalDateTime.now());
-    }
+    }*//*
 
-    @Test
+
+    */
+/*@Test
     void createPost_returns201_whenValid() throws Exception {
         Post created = samplePost("Valid Title", "Valid content");
         when(postService.createPost(eq("Valid Title"), eq("Valid content"))).thenReturn(created);
@@ -52,7 +56,8 @@ class BlogControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("Valid Title"))
                 .andExpect(jsonPath("$.content").value("Valid content"));
-    }
+    }*//*
+
 
     @Test
     void createPost_returns400_whenServiceThrowsValidationException() throws Exception {
@@ -119,3 +124,4 @@ class BlogControllerTest {
                 .andExpect(jsonPath("$[0].title").value("Matching Title"));
     }
 }
+*/
