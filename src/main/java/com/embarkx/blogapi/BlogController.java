@@ -20,8 +20,8 @@ public class BlogController {
     private int maxContentLength;
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestParam String title, @RequestParam String content) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(title, content));
+    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        return ResponseEntity.ok(postService.createPost(post));
     }
 
     @GetMapping
@@ -49,7 +49,7 @@ public class BlogController {
 
     @PutMapping
     public ResponseEntity<Post> updatePost(@RequestParam UUID id, @RequestParam String title, @RequestParam String content) {
-        return ResponseEntity.ok(postService.updatePost(id, title, content));
+        return ResponseEntity.ok(postService.updatePost(id, new Post(title, content)));
     }
 
     @DeleteMapping("/{id}")

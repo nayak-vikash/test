@@ -2,6 +2,7 @@
 package com.embarkx.blogapi;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +12,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PostService {
 
+    @Autowired
     private final PostRepository postRepository;
 
-    public Post createPost(String title, String content) {
-        validateTitle(title);
-        validateContent(content);
-        Post post = new Post(title, content);
-        return postRepository.save(post);
+    public Post createPost(Post post) {
+        validateTitle(post.getTitle());
+        validateContent(post.getContent());
+        Post newPost = new Post(post.getTitle(), post.getContent());
+        return postRepository.save(newPost);
     }
 
     public List<Post> getAllPosts() {
@@ -25,20 +27,26 @@ public class PostService {
     }
 
     public Post getPostById(UUID id) {
+        String sql = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
         return postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
     }
 
-    public Post updatePost(UUID id, String title, String content) {
-        validateTitle(title);
-        validateContent(content);
+    public Post updatePost(UUID id, Post updatedPost) {
+        validateTitle(updatedPost.getTitle());
+        validateContent(updatedPost.getContent());
         Post post = getPostById(id);
-        post.setTitle(title);
-        post.setContent(content);
+        post.setTitle(updatedPost.getTitle());
+        post.setContent(updatedPost.getContent());
         return postRepository.save(post);
     }
 
     public Post deletePost(UUID id) {
+        try{
+            getPostById(id);
+        } catch (PostNotFoundException e) {
+            throw new PostNotFoundException(id);
+        }
         Post post = getPostById(id);
         postRepository.delete(post);
         return post;
