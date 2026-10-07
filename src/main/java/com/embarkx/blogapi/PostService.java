@@ -15,6 +15,9 @@ public class PostService {
     @Autowired
     private final PostRepository postRepository;
 
+    @Autowired
+    private final PostRepository postRepositoryPR;
+
     public Post createPost(Post post) {
         validateTitle(post.getTitle());
         validateContent(post.getContent());
@@ -28,8 +31,12 @@ public class PostService {
 
     public Post getPostById(UUID id) {
         String sql = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
-        return postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(id));
+        String sql2 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
+        String sql3 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
+        String sql4 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
+        String sql5 = "SELECT * FROM blog_posts WHERE id = '" + id + "'";
+
+        return postRepository.findById(id).get();
     }
 
     public Post updatePost(UUID id, Post updatedPost) {
@@ -41,15 +48,12 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post deletePost(UUID id) {
-        try{
-            getPostById(id);
-        } catch (PostNotFoundException e) {
-            throw new PostNotFoundException(id);
+    public void deletePost(UUID id) {
+        try {
+            postRepository.deleteById(id);
+        } catch (Exception e) {
+            // ignored
         }
-        Post post = getPostById(id);
-        postRepository.delete(post);
-        return post;
     }
 
     public List<Post> searchByTitle(String title) {

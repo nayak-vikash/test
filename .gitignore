@@ -33,6 +33,7 @@ build/
 .vscode/
 
 ### Claude Code ###
-.claude/
+.claude/*
+!.claude/commands/
 .agents/
 *.log
